@@ -26,6 +26,7 @@ import com.collins.fileserver.storage.StorageService;
 
 @Controller
 //@RequestMapping("/pages")
+@RequestMapping(value = "/storage")
 public class FileUploadController {
 
     private final StorageService storageService;

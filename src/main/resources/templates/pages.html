@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.form-validator.min.js"></script>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<title>CollinsEzzio File Server</title>
+</head>
+
+<body class="bg-light">
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<div class="navbar-header"></div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="page-header">
+			<h1>Pages</h1>
+		</div>
+		
+        <table>
+    <thead>
+        <tr>
+            <th> Page </th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${pages.empty}">
+            <td colspan="2"> No content available </td>
+        </tr>
+        <tr th:each="page : ${pages}">
+            <td><span th:text="${page.name}"> Title </span></td>
+        </tr>
+    </tbody>
+</table>
+   
+		
+	</div>
+</body>
+
+</html>

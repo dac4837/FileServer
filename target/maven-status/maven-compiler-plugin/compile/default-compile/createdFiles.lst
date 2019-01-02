@@ -1,1 +1,13 @@
+com\collins\fileserver\controller\FileUploadController.class
+com\collins\fileserver\storage\StorageException.class
+com\collins\fileserver\CollinsFileServerApplication.class
 META-INF\spring-configuration-metadata.json
+com\collins\fileserver\controller\FileController.class
+com\collins\fileserver\repository\PageRepository.class
+com\collins\fileserver\storage\FileSystemStorageService.class
+com\collins\fileserver\domain\File.class
+com\collins\fileserver\storage\StorageProperties.class
+com\collins\fileserver\storage\StorageService.class
+com\collins\fileserver\domain\Page.class
+com\collins\fileserver\domain\PageConverter.class
+com\collins\fileserver\repository\FileRepository.class
