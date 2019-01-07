@@ -19,10 +19,13 @@
 		<div class="page-header">
 		<h1>New Page</h1>
 		</div>
+		
+		<p th:if="${message}" th:text="${message}"></p>
 
 		<h1>Form</h1>
     <form action="#" th:action="@{/pages/new}" th:object="${page}" method="post">
     	<p>Page Name<input type="text" th:field="*{name}" /></p>
+    	<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Content error message</p>
         <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
     </form>
 

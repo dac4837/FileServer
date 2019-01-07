@@ -1,7 +1,10 @@
 package com.collins.fileserver.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,8 +47,12 @@ public class ViewController {
     }
 	
 	@PostMapping("/pages/new")
-    public String postNewPage(@ModelAttribute Page page, Model model) {
-		System.out.println(page);
+    public String postNewPage(@ModelAttribute @Valid Page page, BindingResult bindingResult, Model model) {
+		
+		System.out.println(model);
+		if(bindingResult.hasErrors()) {
+			return "newPage";
+		}
 		pageRepository.save(page);
 	    return "redirect:/files";
     }
