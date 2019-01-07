@@ -1,2 +1,2 @@
-INSERT INTO pages (id, name) values (0, 'Dogs'), (1, 'Cats'), (2, 'People');
+INSERT INTO pages (id, name, directory) values (0, 'Dogs', 'dogs'), (1, 'Cats', 'cats'), (2, 'People', 'people');
 INSERT INTO files (name, page_id) values ('Sparky', 0), ('Baily', 0), ('Toast', 0), ('Spinner', 1), ('Pretz', 1), ('David', 2), ('Pearly', 2);

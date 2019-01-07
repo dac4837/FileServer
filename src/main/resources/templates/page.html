@@ -6,7 +6,7 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/jquery.form-validator.min.js"></script>
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<title th:text="#{page.name}">Title</title>
+<title th:text="${page.name}">Title</title>
 </head>
 
 <body class="bg-light">
@@ -17,10 +17,10 @@
 	</nav>
 	<div class="container">
 		<div class="page-header">
-		<h1 th:text="#{page.name}">Title</h1>
+		<h1 th:text="${page.name}">Title</h1>
 		</div>
 
-		<table>
+		<table class="table">
 			<thead>
 				<tr>
 					<th>Files</th>

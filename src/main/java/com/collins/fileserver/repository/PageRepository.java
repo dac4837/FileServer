@@ -7,6 +7,6 @@ import com.collins.fileserver.domain.Page;
 
 @Repository
 public interface PageRepository extends JpaRepository<Page, Long> {
-	Page findByName(String name);
+	Page findByDirectory(String name);
 
 }

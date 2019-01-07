@@ -21,15 +21,21 @@ public class Page {
     @Column(unique = true)
 	private String name;
 	
+	@NotNull
+    @Column(unique = true)
+	private String directory;
+	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
+		
+		if(this.directory ==null ) {
+			this.directory = formatString(name);
+		}
 	}
-	public String getDirectory() {
-		return name.toLowerCase();
-	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -37,10 +43,20 @@ public class Page {
 		this.id = id;
 	}
 	
-	
+	public String getDirectory() {
+		return directory;
+	}
+	public void setDirectory(String directory) {
+		this.directory = directory;
+	}
 	@Override
 	public String toString() {
 		return "Page [id=" + id + ", name=" + name + "]";
+	}
+	
+	//TODO update logic
+	private String formatString(String string) {
+		return string.toLowerCase();
 	}
 	
 	

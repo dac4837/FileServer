@@ -3,7 +3,9 @@ package com.collins.fileserver.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.collins.fileserver.domain.Page;
 import com.collins.fileserver.repository.FileRepository;
@@ -33,7 +35,7 @@ public class ViewController {
 	
 	@GetMapping("/files/{pageName}")
     public String getPage(@PathVariable String pageName, Model model) {
-		Page page = pageRepository.findByName(pageName);
+		Page page = pageRepository.findByDirectory(pageName);
 		System.out.println(page);
 		System.out.println(fileRepository.findByPageId(page.getId()));
 		model.addAttribute("page", page);
@@ -41,4 +43,16 @@ public class ViewController {
         return "page";
     }
 	
+	@PostMapping("/pages/new")
+    public String postNewPage(@ModelAttribute Page page, Model model) {
+		System.out.println(page);
+		pageRepository.save(page);
+	    return "redirect:/files";
+    }
+	
+	@GetMapping("/pages/new")
+    public String getNewPage(Model model) {
+		model.addAttribute("page", new Page());
+        return "newPage";
+    }
 }
