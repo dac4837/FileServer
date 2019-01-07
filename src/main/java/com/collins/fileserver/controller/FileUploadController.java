@@ -20,9 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.collins.fileserver.domain.File;
 import com.collins.fileserver.domain.Page;
+import com.collins.fileserver.service.PageService;
+import com.collins.fileserver.service.StorageService;
 import com.collins.fileserver.storage.StorageException;
-import com.collins.fileserver.storage.StorageService;
 
 @Controller
 //@RequestMapping("/pages")
@@ -30,10 +32,12 @@ import com.collins.fileserver.storage.StorageService;
 public class FileUploadController {
 
     private final StorageService storageService;
+    private final PageService pageService;
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(StorageService storageService, PageService pageService) {
         this.storageService = storageService;
+        this.pageService = pageService;
     }
 
     //@GetMapping("/{page}/")
@@ -63,14 +67,17 @@ public class FileUploadController {
     }
     */
 
-    @GetMapping("/files/{filename:.+}")
-    //@GetMapping("/{page}/files/{filename:.+}")
+    //@GetMapping("/files/{filename:.+}")
+    @GetMapping("/files/{pageName}/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(/*@PathVariable Page page,*/ @PathVariable String filename) {
+    public ResponseEntity<Resource> serveFile(@PathVariable String pageName, @PathVariable String filename) {
+    	//Page page = pageRepository.findByDirectory(pageName);
+    	
+    	File file = pageService.getFile(pageName, filename);
 
-        Resource file = storageService.loadAsResource(filename, new Page());
+        Resource fileResource = storageService.loadAsResource(file);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+                "attachment; filename=\"" + fileResource.getFilename() + "\"").body(fileResource);
     }
 
     //@PostMapping("/{page}/")

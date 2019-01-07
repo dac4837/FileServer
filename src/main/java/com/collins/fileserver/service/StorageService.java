@@ -1,4 +1,4 @@
-package com.collins.fileserver.storage;
+package com.collins.fileserver.service;
 
 import java.nio.file.Path;
 import java.util.stream.Stream;
@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.collins.fileserver.domain.File;
 import com.collins.fileserver.domain.Page;
 
 public interface StorageService {
@@ -16,9 +17,9 @@ public interface StorageService {
 
     Stream<Path> loadAll(Page page);
 
-    Path load(String filename, Page page);
+    Path load(File file);
 
-    Resource loadAsResource(String filename, Page page);
+    Resource loadAsResource(File file);
 
     void deleteAll();
 

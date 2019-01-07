@@ -1,4 +1,4 @@
-package com.collins.fileserver.storage;
+package com.collins.fileserver.service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,10 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.collins.fileserver.domain.File;
 import com.collins.fileserver.domain.Page;
+import com.collins.fileserver.storage.StorageException;
+import com.collins.fileserver.storage.StorageProperties;
 
 @Service
 public class FileSystemStorageService implements StorageService {
@@ -73,26 +76,26 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public Path load(String filename, Page page) {
-        return getPath(page).resolve(filename);
+    public Path load(File file) {
+        return getPath(file.getPage()).resolve(file.getName());
     }
 
     @Override
-    public Resource loadAsResource(String filename, Page page) {
+    public Resource loadAsResource(File file) {
         try {
-            Path file = load(filename, page);
-            Resource resource = new UrlResource(file.toUri());
+            Path filePath = load(file);
+            Resource resource = new UrlResource(filePath.toUri());
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             }
             else {
                 throw new StorageException(
-                        "Could not read file: " + filename);
+                        "Could not read file: " + file);
 
             }
         }
         catch (MalformedURLException e) {
-            throw new StorageException("Could not read file: " + filename, e);
+            throw new StorageException("Could not read file: " + file, e);
         }
     }
 

@@ -4,10 +4,11 @@ C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\con
 C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\repository\PageRepository.java
 C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\domain\Page.java
 C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\repository\FileRepository.java
+C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\service\StorageService.java
 C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\storage\StorageProperties.java
-C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\storage\StorageService.java
+C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\service\FileSystemStorageService.java
 C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\domain\PageConverter.java
 C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\domain\File.java
+C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\service\PageService.java
 C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\CollinsFileServerApplication.java
 C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\controller\FileController.java
-C:\Users\n0209613\Forge_Code\FileServer\src\main\java\com\collins\fileserver\storage\FileSystemStorageService.java

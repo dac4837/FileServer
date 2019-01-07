@@ -2,6 +2,7 @@ package com.collins.fileserver.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,38 +12,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.collins.fileserver.domain.Page;
-import com.collins.fileserver.repository.FileRepository;
-import com.collins.fileserver.repository.PageRepository;
+import com.collins.fileserver.service.PageService;
 
 @Controller
 public class ViewController {
 
-	private final PageRepository pageRepository;
-	private final FileRepository fileRepository;
+	private final PageService pageService;
 	
 	
-	public ViewController(PageRepository pageRepository, FileRepository fileRepository) {
+	@Autowired
+	public ViewController(PageService pageService) {
 		super();
-		this.pageRepository = pageRepository;
-		this.fileRepository = fileRepository;
+		this.pageService = pageService;
 	}
 
 
 
 	@GetMapping("/files")
     public String getAllPages( Model model) {
-        model.addAttribute("pages", pageRepository.findAll());
+        model.addAttribute("pages", pageService.getAllPages() );
         return "pages";
     }
 	
 	
 	@GetMapping("/files/{pageName}")
     public String getPage(@PathVariable String pageName, Model model) {
-		Page page = pageRepository.findByDirectory(pageName);
-		System.out.println(page);
-		System.out.println(fileRepository.findByPageId(page.getId()));
+		Page page = pageService.getPage(pageName);
 		model.addAttribute("page", page);
-        model.addAttribute("files", fileRepository.findByPageId(page.getId()));
+        model.addAttribute("files", pageService.getFilesByPageName(pageName));
         return "page";
     }
 	
@@ -53,7 +50,7 @@ public class ViewController {
 		if(bindingResult.hasErrors()) {
 			return "newPage";
 		}
-		pageRepository.save(page);
+		pageService.savePage(page);
 	    return "redirect:/files";
     }
 	

@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.CommandLineRunner;
 
+import com.collins.fileserver.service.StorageService;
 import com.collins.fileserver.storage.StorageProperties;
-import com.collins.fileserver.storage.StorageService;
 
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)

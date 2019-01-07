@@ -11,4 +11,5 @@ import com.collins.fileserver.domain.File;
 public interface FileRepository extends JpaRepository<File, Long> {
 
 	List<File> findByPageId(Long pageId);
+	File findByPageIdAndName(Long pageId, String name);
 }
