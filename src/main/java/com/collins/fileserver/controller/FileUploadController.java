@@ -28,7 +28,7 @@ import com.collins.fileserver.storage.StorageException;
 
 @Controller
 //@RequestMapping("/pages")
-@RequestMapping(value = "/storage")
+//@RequestMapping(value = "/storage")
 public class FileUploadController {
 
     private final StorageService storageService;
@@ -42,7 +42,7 @@ public class FileUploadController {
 
     //@GetMapping("/{page}/")
     ///*@PathVariable Page page,*/
-    @GetMapping("/")
+    @GetMapping("/storage")
     public String listUploadedFiles(/*@PathVariable Page page,*/ Model model) throws IOException {
     	System.out.println("Getting");
 
@@ -68,12 +68,13 @@ public class FileUploadController {
     */
 
     //@GetMapping("/files/{filename:.+}")
-    @GetMapping("/files/{pageName}/{filename:.+}")
+    @GetMapping("/files/download/{pageName}/{fileName:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String pageName, @PathVariable String filename) {
+    public ResponseEntity<Resource> serveFile(@PathVariable String pageName, @PathVariable String fileName) {
     	//Page page = pageRepository.findByDirectory(pageName);
+    	System.out.println("Request to get file. Page: " + pageName + " File: " + fileName);
     	
-    	File file = pageService.getFile(pageName, filename);
+    	File file = pageService.getFile(pageName, fileName);
 
         Resource fileResource = storageService.loadAsResource(file);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
@@ -81,7 +82,7 @@ public class FileUploadController {
     }
 
     //@PostMapping("/{page}/")
-    @PostMapping("/")
+    @PostMapping("/storage")
     public String handleFileUpload(/*@PathVariable Page page,*/ @RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) {
 

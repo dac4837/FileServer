@@ -31,7 +31,7 @@
 					<td colspan="2">No content available</td>
 				</tr>
 				<tr th:each="file : ${files}">
-					<td><span th:text="${file.name}"> Title </span></td>
+					<td><a th:text="${file.name}"  th:href="@{/files/download/{directory}/{fileName}(directory=${page.directory}, fileName=${file.name})}"></a></td>
 				</tr>
 			</tbody>
 		</table>
