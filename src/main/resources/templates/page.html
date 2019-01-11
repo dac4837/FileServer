@@ -19,6 +19,9 @@
 		<div class="page-header">
 		<h1 th:text="${page.name}">Title</h1>
 		</div>
+		
+		<a th:href="@{/files/{directory}/new(directory=${page.directory})}"><button>Upload File</button></a>
+		<a th:href="@{/files}"><button>Home</button></a>
 
 		<table class="table">
 			<thead>

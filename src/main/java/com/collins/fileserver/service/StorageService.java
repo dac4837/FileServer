@@ -13,7 +13,7 @@ public interface StorageService {
 
     void init();
 
-    void store(MultipartFile file, Page page);
+    File store(MultipartFile file, Page page);
 
     Stream<Path> loadAll(Page page);
 

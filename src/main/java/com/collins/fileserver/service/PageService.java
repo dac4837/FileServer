@@ -40,6 +40,10 @@ public class PageService {
 		return pageRepository.save(page);	
 	}
 	
+	public File saveFile(File file) {
+		return fileRepository.save(file);
+	}
+	
 	public File getFile(String directory, String fileName) {
 		Page page = this.getPage(directory);
 		return fileRepository.findByPageIdAndName(page.getId(), fileName);
