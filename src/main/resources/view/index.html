@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Index</title>
+    <meta charset="utf-8" />
+    <!--Style Sheets-->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+
+    <!--Java Script-->
+    <script type="text/javascript" src="../js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/handlebars.min.js"></script>
+
+    <!--Index related JS-->
+    <script type="text/javascript" src="files/index.js"></script>
+
+    <script type="text/javascript">
+	//This handlebars function returns the correct page subtype based on advertised type.
+      Handlebars.registerHelper('pageURL', function(type, resource, options) {
+	    if(!type || !resource) {
+		return "index.html"
+		}
+	    var url = "";
+	    if(type.toString().toLowerCase() === "image" ) {
+			url = "imagePage.php?source=" + resource;
+		} else if(type.toString().toLowerCase() === "video" ) {
+			url = "videoPage.php?source=" + resource;
+		} else {
+			url = "dataPage.php?source=" + resource;
+		}
+		
+		return url;
+		
+      });
+      //startup functions
+      $(document).ready(function() {
+        //set the title
+        if (pageFile.title) {
+          document.title = pageFile.title;
+        }
+
+        //set the body using handlebars
+        var handlebarsSource = $("#body-template").html();
+        var handlebarsTemplate = Handlebars.compile(handlebarsSource);
+        $("#body-holder").html(handlebarsTemplate(pageFile));
+
+      });
+
+    </script>
+
+    <!--Templated main body-->
+    <script id="body-template" type="text/x-handlebars-template">
+
+      <!-- navigation bar -->
+      <nav class="navbar navbar-default">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar" />
+              <span class="icon-bar" />
+              <span class="icon-bar" />
+            </button>
+            <a class="navbar-brand" href="#">Home</a>
+          </div>
+        </div>
+      </nav>
+
+      <!--Title and description-->
+      {{#if title}}
+      <div class="container">
+        <div class="page-header">
+          <h1>{{title}}</h1>
+        </div>
+      </div>
+      {{/if}}
+
+      <!--Index template, displaying all of the options in a list-->
+      <div class="container">
+        <ul class="list-group">
+          {{#items}}
+          <li class="list-group-item">
+            <a href="{{#pageURL type src}}{{/pageURL}}">
+              <div class="media-body">
+
+                <h4 class="media-heading">{{title}}</h4>
+                <p>{{description}}</p>
+              </div>
+              {{#if thumbnail}}
+              <div class="media-right">
+
+                <img class="media-object img-thumbnail" src="{{thumbnail}}" alt="{{title}}" width="140" hight="140" />
+              </div>
+              {{/if}}
+            </a>
+          </li>
+          {{/items}}
+        </ul>
+      </div>
+    </script>
+  </head>
+
+  <body>
+
+    <!-- placeholder for the handlebars body-->
+    <div id="body-holder"></div>
+
+  </body>
+
+</html>
