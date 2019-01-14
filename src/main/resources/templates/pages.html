@@ -2,22 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<script th:src="@{/js/jquery-3.2.1.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/jquery.form-validator.min.js}"></script>
-<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+<th:block th:include="fragments/general.html :: headerfiles">
+        </th:block>
 <title>CollinsEzzio File Server</title>
 </head>
 
-<body class="bg-light">
-	<nav class="navbar navbar-default">
-		<div class="container">
-			<div class="navbar-header"></div>
-		</div>
-	</nav>
+<body>
+	
+	
 	<div class="container">
+	<div th:include="fragments/general.html :: navbar"></div>
 		<div class="page-header">
-			<h1>Pages</h1>
+			<h1>Pagesssss</h1>
 		</div>
 		
 		<a th:href="@{/pages/new}"><button>New Page</button></a>
