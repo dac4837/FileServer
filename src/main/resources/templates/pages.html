@@ -3,38 +3,46 @@
 
 <head>
 <th:block th:include="fragments/general.html :: headerfiles">
-        </th:block>
+</th:block>
 <title>CollinsEzzio File Server</title>
 </head>
 
 <body>
-	
-	
+
 	<div class="container">
-	<div th:include="fragments/general.html :: navbar"></div>
+		<div th:include="fragments/general.html :: navbar"></div>
+
 		<div class="page-header">
-			<h1>Pagesssss</h1>
+			<h1>Pages</h1>
 		</div>
-		
-		<a th:href="@{/pages/new}"><button>New Page</button></a>
-		
-        <table>
-    <thead>
-        <tr>
-            <th> Page </th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${pages.empty}">
-            <td colspan="2"> No content available </td>
-        </tr>
-        <tr th:each="page : ${pages}">
-            <td><a th:text="${page.name}"  th:href="@{/files/{directory}(directory=${page.directory})}"></a></td>
-        </tr>
-    </tbody>
-</table>
-   
-		
+
+		<p>
+			<a th:href="@{/pages/new}"><button>New Page</button></a>
+		</p>
+
+		<ul class="list-group" th:if="${pages.empty}">
+			<li class="list-group-item">No content available</li>
+		</ul>
+
+		<div class="list-group">
+
+			<a th:each="page : ${pages}"
+				th:href="@{/files/{directory}(directory=${page.directory})}"
+				th:text="${page.name}"
+				class="list-group-item list-group-item-action"> <!-- 
+              <div class="media-body">
+
+                <h4 class="media-heading" th:text="${page.name}">Page Name</h4>
+                <p th:if="${page.description}" th:text="${page.description}">Description</p>
+              </div>
+              <div class="media-right" >
+
+                <img th:if="${page.thumbnail}" class="media-object img-thumbnail" th:src="${page.thumbnail}" th:alt="${page.name}"width="140" hight="140" />
+              </div>
+-->
+			</a>
+		</div>
+
 	</div>
 </body>
 
