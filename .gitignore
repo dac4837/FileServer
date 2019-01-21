@@ -28,6 +28,9 @@ buildSrc/build
 /spring-*/build
 /src/asciidoc/build
 target/
+upload-dir/
+.mvn/
+.settings/
 
 # Eclipse artifacts, including WTP generated manifests
 .classpath
