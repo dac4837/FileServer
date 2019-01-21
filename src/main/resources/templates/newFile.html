@@ -2,27 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<script th:src="@{/js/jquery-3.2.1.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/jquery.form-validator.min.js}"></script>
-<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
-<title>CollinsEzzio File Server</title>
+<th:block th:include="fragments/general.html :: headerfiles">
+	<script th:src="@{/js/jquery.form-validator.min.js}"></script>
+	<title>Upload File</title>
 </head>
 <body>
 
-	<div th:if="${message}">
-		<h2 th:text="${message}"/>
-	</div>
+	<div class="container">
+		<div th:include="fragments/general.html :: navbar"></div>
 
-	<div>
-		<form method="POST" enctype="multipart/form-data" th:action="@{/files/{directory}/new(directory=${page.directory})}">
-			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-			</table>
+		<div class="page-header">
+			<h1 th:text="${page.name}" ></h1>
+			<h3>New File</h3>
+		</div>
+		<div th:if="${message}">
+			<h2 th:text="${message}" />
+		</div>
+
+		<br>
+		<form method="POST" enctype="multipart/form-data"
+			th:action="@{/files/{directory}/new(directory=${page.directory})}">
+			<div class="form-group">
+				<label for="inputFile">File to upload:</label> <input
+					class="form-control" id="inputFile" type="file" name="file" />
+				<button type="submit" value="Submit" class="btn btn-primary">Upload</button>
+				<a class="btn btn-secondary" th:href="@{/files/{directory}(directory=${page.directory})}">Back</a>
+			</div>
+
 		</form>
+
+
 	</div>
 
-	
 </body>
 </html>

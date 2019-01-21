@@ -2,32 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<script th:src="@{/js/jquery-3.2.1.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/jquery.form-validator.min.js}"></script>
-<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
-<title>New Page</title>
+<th:block th:include="fragments/general.html :: headerfiles">
+	<script th:src="@{/js/jquery.form-validator.min.js}"></script>
+	<title>New Page</title>
 </head>
 
-<body class="bg-light">
-	<nav class="navbar navbar-default">
-		<div class="container">
-			<div class="navbar-header"></div>
-		</div>
-	</nav>
+<body>
 	<div class="container">
+		<div th:include="fragments/general.html :: navbar"></div>
+
 		<div class="page-header">
-		<h1>New Page</h1>
+			<h2>New Page</h2>
 		</div>
-		
+
 		<p th:if="${message}" th:text="${message}"></p>
 
-		<h1>Form</h1>
-    <form action="#" th:action="@{/pages/new}" th:object="${page}" method="post">
-    	<p>Page Name<input type="text" th:field="*{name}" /></p>
-    	<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Content error message</p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>
+		<form action="#" th:action="@{/pages/new}" th:object="${page}"
+			method="post">
+			<div class="form-group">
+				<label for="inputPageName">Page Name</label> <input
+					id="inputPageName" class="form-control" type="text"
+					th:field="*{name}" />
+				<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Content
+					error message</p>
+			</div>
+
+			<button type="submit" value="Submit" class="btn btn-primary">Submit</button>
+		</form>
 
 	</div>
 </body>
