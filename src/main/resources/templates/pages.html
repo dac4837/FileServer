@@ -17,7 +17,7 @@
 		</div>
 
 		<p>
-			<a th:href="@{/pages/new}"><button>New Page</button></a>
+			<a class="btn btn-success" th:href="@{/pages/new}">New Page</a>
 		</p>
 
 		<ul class="list-group" th:if="${pages.empty}">
@@ -29,7 +29,7 @@
 			<a th:each="page : ${pages}"
 				th:href="@{/files/{directory}(directory=${page.directory})}"
 				th:text="${page.name}"
-				class="list-group-item list-group-item-action"> <!-- 
+				class="list-group-item list-group-item-action"> <!--/* 
               <div class="media-body">
 
                 <h4 class="media-heading" th:text="${page.name}">Page Name</h4>
@@ -39,7 +39,7 @@
 
                 <img th:if="${page.thumbnail}" class="media-object img-thumbnail" th:src="${page.thumbnail}" th:alt="${page.name}"width="140" hight="140" />
               </div>
--->
+				*/-->
 			</a>
 		</div>
 
