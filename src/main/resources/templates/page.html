@@ -30,8 +30,10 @@
 
 
 
-		<a class="btn btn-success" th:href="@{/files/{directory}/new(directory=${page.directory})}" >Upload File</a>
-		
+		<a class="btn btn-success"
+			th:href="@{/files/{directory}/new(directory=${page.directory})}">Upload
+			File</a>
+
 
 		<ul class="list-group" th:if="${files.empty}">
 			<li class="list-group-item">No content available</li>
@@ -39,7 +41,8 @@
 		<ul class="list-group">
 			<li class="list-group-item" th:each="file : ${files}">
 				<div class="media-body">
-					<h4 class="list-group-item-heading" th:text="${file.name}">File name</h4>
+					<h4 class="list-group-item-heading" th:text="${file.name}">File
+						name</h4>
 					<!--/* 
 					{{#if description}}
 					<p class="list-group-item-text">{{description}}</p>
@@ -48,8 +51,9 @@
 
 				</div>
 				<div class="media-left">
-					<a class="btn btn-info" th:href="@{/files/download/{directory}/{fileName}(directory=${page.directory}, fileName=${file.name})}"
-					 th:download="${file.name}" role="button">Download</a>
+					<a class="btn btn-info"
+						th:href="@{/files/download/{directory}/{fileName}(directory=${page.directory}, fileName=${file.name})}"
+						th:download="${file.name}" role="button">Download</a>
 				</div>
 
 				<div class="media-right"></div>
