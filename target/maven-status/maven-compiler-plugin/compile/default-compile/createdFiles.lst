@@ -1,7 +1,6 @@
 com\collins\fileserver\controller\FileUploadController.class
 com\collins\fileserver\storage\StorageException.class
 META-INF\spring-configuration-metadata.json
-com\collins\fileserver\controller\FileController.class
 com\collins\fileserver\storage\StorageProperties.class
 com\collins\fileserver\domain\Page.class
 com\collins\fileserver\domain\PageConverter.class

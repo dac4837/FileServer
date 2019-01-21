@@ -1,5 +1,8 @@
 package com.collins.fileserver.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +27,7 @@ public class ViewController {
 
 	private final PageService pageService;
 	private final StorageService storageService;
-	
-	
+
 	@Autowired
 	public ViewController(PageService pageService, StorageService storageService) {
 		super();
@@ -33,58 +35,66 @@ public class ViewController {
 		this.storageService = storageService;
 	}
 
-
-
 	@GetMapping("/files")
-    public String getAllPages( Model model) {
-        model.addAttribute("pages", pageService.getAllPages() );
-        return "pages";
-    }
-	
-	
+	public String getAllPages(Model model) {
+		model.addAttribute("pages", pageService.getAllPages());
+		return "pages";
+	}
+
 	@GetMapping("/files/{pageName}")
-    public String getPage(@PathVariable String pageName, Model model) {
+	public String getPage(@PathVariable String pageName, Model model) {
 		Page page = pageService.getPage(pageName);
-		model.addAttribute("page", page);
-        model.addAttribute("files", pageService.getFilesByPageName(pageName));
-        return "page";
-    }
-	
+		if (page == null) {
+			throw new ResourceNotFoundException("Page " + pageName + " was not found");
+		} else {
+
+			model.addAttribute("page", page);
+			model.addAttribute("files", pageService.getFilesByPageName(pageName));
+			return "page";
+		}
+	}
+
 	@PostMapping("/pages/new")
-    public String postNewPage(@ModelAttribute @Valid Page page, BindingResult bindingResult, Model model) {
-		
+	public String postNewPage(@ModelAttribute @Valid Page page, BindingResult bindingResult, Model model) {
+
 		System.out.println(model);
-		if(bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {
 			return "newPage";
 		}
 		pageService.savePage(page);
-	    return "redirect:/files";
-    }
-	
+		return "redirect:/files";
+	}
+
 	@GetMapping("/pages/new")
-    public String getNewPage(Model model) {
+	public String getNewPage(Model model) {
 		model.addAttribute("page", new Page());
-        return "newPage";
-    }
-	
+		return "newPage";
+	}
+
 	@PostMapping("/files/{pageName}/new")
-    public String postFileUpload(@PathVariable String pageName, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model) {
+	public String postFileUpload(@PathVariable String pageName, @RequestParam("file") MultipartFile file,
+			RedirectAttributes redirectAttributes, Model model) {
 		Page page = pageService.getPage(pageName);
+		if (page == null)
+			throw new ResourceNotFoundException("Page " + pageName + " was not found");
+
 		File newFile = storageService.store(file, page);
 		pageService.saveFile(newFile);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-		//pageService.savePage(page);
-	    return "redirect:/files/" + pageName;
-    }
-	
+		redirectAttributes.addFlashAttribute("message",
+				"You successfully uploaded " + file.getOriginalFilename() + "!");
+		return "redirect:/files/" + pageName;
+
+	}
+
 	@GetMapping("/files/{pageName}/new")
-    public String getFileUpload(@PathVariable String pageName, Model model) {
+	public String getFileUpload(@PathVariable String pageName, Model model) {
 		Page page = pageService.getPage(pageName);
+		if (page == null)
+			throw new ResourceNotFoundException("Page " + pageName + " was not found");
 		model.addAttribute("page", page);
 		model.addAttribute("file", new File());
-        return "newFile";
-    }
-	
-	
+		return "newFile";
+
+	}
+
 }
