@@ -1,8 +1,6 @@
 package com.collins.fileserver.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -89,8 +88,11 @@ public class FileUploadController {
 	@PostMapping("/storage")
 	public String handleFileUpload(/* @PathVariable Page page, */ @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
+		System.out.println("Trying to upload a file");
 
 		storageService.store(file, new Page());
+		
+		
 		redirectAttributes.addFlashAttribute("message",
 				"You successfully uploaded " + file.getOriginalFilename() + "!");
 
@@ -98,8 +100,11 @@ public class FileUploadController {
 	}
 
 	@ExceptionHandler(StorageException.class)
-	public ResponseEntity<?> handleStorageFileNotFound(StorageException exc) {
-		return ResponseEntity.notFound().build();
+	public void handleStorageFileNotFound(StorageException exc) {
+		throw new ResourceNotFoundException(exc.getMessage());
 	}
+	
+	
+	
 
 }

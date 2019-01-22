@@ -1,8 +1,5 @@
 package com.collins.fileserver.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +54,11 @@ public class ViewController {
 	@PostMapping("/pages/new")
 	public String postNewPage(@ModelAttribute @Valid Page page, BindingResult bindingResult, Model model) {
 
-		System.out.println(model);
 		if (bindingResult.hasErrors()) {
 			return "newPage";
 		}
 		pageService.savePage(page);
-		return "redirect:/files";
+		return "redirect:/files/"+page.getDirectory();
 	}
 
 	@GetMapping("/pages/new")
