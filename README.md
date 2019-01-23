@@ -18,6 +18,7 @@ Add view
 
 Error handling
 -404 view
+-add message
 -no file
 -can't upload
 -string validation (spaces)

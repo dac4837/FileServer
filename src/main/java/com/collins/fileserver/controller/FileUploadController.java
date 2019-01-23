@@ -25,6 +25,9 @@ import com.collins.fileserver.domain.Page;
 import com.collins.fileserver.service.PageService;
 import com.collins.fileserver.service.StorageService;
 import com.collins.fileserver.storage.StorageException;
+/**
+ * I don't think this is being used
+ */
 
 @Controller
 //@RequestMapping("/pages")
@@ -89,6 +92,11 @@ public class FileUploadController {
 	public String handleFileUpload(/* @PathVariable Page page, */ @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
 		System.out.println("Trying to upload a file");
+		
+		if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:uploadStatus";
+        }
 
 		storageService.store(file, new Page());
 		

@@ -70,9 +70,16 @@ public class ViewController {
 	@PostMapping("/files/{pageName}/new")
 	public String postFileUpload(@PathVariable String pageName, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes, Model model) {
+			
 		Page page = pageService.getPage(pageName);
 		if (page == null)
 			throw new ResourceNotFoundException("Page " + pageName + " was not found");
+		
+		
+		if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:/files/" + pageName;
+        }
 
 		File newFile = storageService.store(file, page);
 		pageService.saveFile(newFile);

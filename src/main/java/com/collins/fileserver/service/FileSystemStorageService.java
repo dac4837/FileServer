@@ -17,6 +17,7 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.collins.fileserver.controller.ClientWebException;
 import com.collins.fileserver.domain.File;
 import com.collins.fileserver.domain.Page;
 import com.collins.fileserver.storage.StorageException;
@@ -47,7 +48,7 @@ public class FileSystemStorageService implements StorageService {
             }
             if (fileName.contains("..")) {
                 // This is a security check
-                throw new StorageException(
+                throw new ClientWebException(
                         "Cannot store file with relative path outside current directory "
                                 + fileName);
             }
