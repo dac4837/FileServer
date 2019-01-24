@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,19 +51,19 @@ public class FileSystemStorageService implements StorageService {
                         "Cannot store file with relative path outside current directory "
                                 + fileName);
             }
-            try (InputStream inputStream = file.getInputStream()) {
+           InputStream inputStream = file.getInputStream();
             	Files.createDirectories(getPath(page));
-                Files.copy(inputStream, getPath(page).resolve(fileName),
-                    StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(inputStream, getPath(page).resolve(fileName));
                 
                 File newFile = new File();
                 newFile.setName(fileName);
                 newFile.setPage(page);
                 return newFile;
-            }
+            
         }
         catch (IOException e) {
-            throw new StorageException("Failed to store file " + fileName, e);
+        	System.out.println("Caught error");
+            throw new StorageException("Failed to upload file " + file.getName(), e);
         }
     }
 

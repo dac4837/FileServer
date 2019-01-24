@@ -20,7 +20,11 @@ Error handling
 -404 view
 -add message
 -no file
+
+
+-already exists
 -can't upload
+-out of space
 -string validation (spaces)
 
 

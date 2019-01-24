@@ -15,9 +15,7 @@
 			<h1 th:text="${page.name}" ></h1>
 			<h3>New File</h3>
 		</div>
-		<div th:if="${message}">
-			<h2 th:text="${message}" />
-		</div>
+		<div th:if="${message}" th:text="${message}" class="alert alert-danger" role="alert"></div>
 
 		<br>
 		<form method="POST" enctype="multipart/form-data"

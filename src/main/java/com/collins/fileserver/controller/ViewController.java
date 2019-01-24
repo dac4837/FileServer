@@ -41,14 +41,11 @@ public class ViewController {
 	@GetMapping("/files/{pageName}")
 	public String getPage(@PathVariable String pageName, Model model) {
 		Page page = pageService.getPage(pageName);
-		if (page == null) {
-			throw new ResourceNotFoundException("Page " + pageName + " was not found");
-		} else {
 
 			model.addAttribute("page", page);
 			model.addAttribute("files", pageService.getFilesByPageName(pageName));
 			return "page";
-		}
+		
 	}
 
 	@PostMapping("/pages/new")
@@ -72,13 +69,9 @@ public class ViewController {
 			RedirectAttributes redirectAttributes, Model model) {
 			
 		Page page = pageService.getPage(pageName);
-		if (page == null)
-			throw new ResourceNotFoundException("Page " + pageName + " was not found");
-		
-		
 		if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:/files/" + pageName;
+            return "redirect:/files/" + pageName + "/new";
         }
 
 		File newFile = storageService.store(file, page);
@@ -92,8 +85,6 @@ public class ViewController {
 	@GetMapping("/files/{pageName}/new")
 	public String getFileUpload(@PathVariable String pageName, Model model) {
 		Page page = pageService.getPage(pageName);
-		if (page == null)
-			throw new ResourceNotFoundException("Page " + pageName + " was not found");
 		model.addAttribute("page", page);
 		model.addAttribute("file", new File());
 		return "newFile";

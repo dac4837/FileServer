@@ -15,7 +15,7 @@
 			<h2>New Page</h2>
 		</div>
 
-		<p th:if="${message}" th:text="${message}"></p>
+		<div th:if="${message}" th:text="${message}" class="alert alert-danger" role="alert"></div>
 
 		<form action="#" th:action="@{/pages/new}" th:object="${page}"
 			method="post">
