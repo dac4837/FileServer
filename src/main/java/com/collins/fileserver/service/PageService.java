@@ -1,11 +1,12 @@
 package com.collins.fileserver.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.h2.jdbc.JdbcSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.collins.fileserver.controller.ClientWebException;
 import com.collins.fileserver.controller.ResourceNotFoundException;
@@ -13,19 +14,21 @@ import com.collins.fileserver.domain.File;
 import com.collins.fileserver.domain.Page;
 import com.collins.fileserver.repository.FileRepository;
 import com.collins.fileserver.repository.PageRepository;
-import com.collins.fileserver.storage.StorageException;
 
 @Service
 public class PageService {
 
 	private final PageRepository pageRepository;
 	private final FileRepository fileRepository;
+	private final StorageService storageService;
 	
 	@Autowired
-	public PageService(PageRepository pageRepository, FileRepository fileRepository) {
+	public PageService(PageRepository pageRepository, FileRepository fileRepository,
+			StorageService storageService) {
 		super();
 		this.pageRepository = pageRepository;
 		this.fileRepository = fileRepository;
+		this.storageService = storageService;
 	}
 	
 	public List<Page> getAllPages() {
@@ -45,21 +48,31 @@ public class PageService {
 	}
 	
 	public Page savePage(Page page) {
+		try {
 		return pageRepository.save(page);	
+		} catch (Exception e) {
+			System.out.println(e);
+			System.out.println(e.getCause());
+			if(e instanceof JdbcSQLException)	throw new ClientWebException ("Error saving. Already exists"); 
+			else throw new ClientWebException (e.getMessage());
+		}
 	}
 	
-	public File saveFile(File file) {
-			return fileRepository.save(file);
+	public File saveFile( MultipartFile file, Page page) {
+			File storedFile = storageService.store(file, page);
+			return fileRepository.save(storedFile);
 		
 	}
 	
-	public File getFile(String directory, String fileName) {
+	public Resource getFile(String directory, String fileName) {
 		Page page = this.getPage(directory);
 		File file = fileRepository.findByPageIdAndName(page.getId(), fileName);
 		if (file == null) throw new ResourceNotFoundException("file "+ directory + "/" + fileName + " was not found");
-		return file;
+		return storageService.loadAsResource(file);
 		
 	}
+	
+
 	
 	
 }

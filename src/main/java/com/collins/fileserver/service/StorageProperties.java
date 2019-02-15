@@ -1,4 +1,4 @@
-package com.collins.fileserver.storage;
+package com.collins.fileserver.service;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

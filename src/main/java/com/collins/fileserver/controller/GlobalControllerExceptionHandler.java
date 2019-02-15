@@ -19,18 +19,5 @@ public class GlobalControllerExceptionHandler {
 		throw new ClientWebException (e.getCause().getMessage());
 
     }
-	
-	@ExceptionHandler(JdbcSQLException.class)
-    public String handleJdbcSQLException(JdbcSQLException e, RedirectAttributes redirectAttributes) {
-		
-		throw new ClientWebException ("Error saving. Already exists");
 
-    }
-	
-	@ExceptionHandler(SQLException.class)
-    public String handleSQLException(SQLException e, RedirectAttributes redirectAttributes) {
-		
-		throw new ClientWebException (e.getMessage());
-
-    }
 }
