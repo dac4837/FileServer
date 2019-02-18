@@ -1,8 +1,5 @@
 package com.collins.fileserver.controller;
 
-import java.sql.SQLException;
-
-import org.h2.jdbc.JdbcSQLException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartException;

@@ -28,4 +28,5 @@ Add security
 Page pic
 
 populate db with fileserver
+delete
 -out of space
