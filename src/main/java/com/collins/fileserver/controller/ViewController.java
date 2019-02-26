@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.collins.fileserver.domain.File;
 import com.collins.fileserver.domain.Page;
+import com.collins.fileserver.domain.User;
 import com.collins.fileserver.service.PageService;
 
 @Controller
@@ -105,6 +106,28 @@ public class ViewController {
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);
+	}
+	
+	@GetMapping("/login")
+	public String getLogin(Model model) {
+		model.addAttribute("user", new User());
+		return "login";
+	}
+	
+	@PostMapping("/login")
+	public String postLogin(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model) {
+
+		if (bindingResult.hasErrors()) {
+			return "login";
+		}
+
+		return "redirect:/files";
+	}
+	
+	@PostMapping("/new_user")
+	public String postNewUser(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model) {
+		
+		return "files";
 	}
 
 }

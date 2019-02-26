@@ -25,6 +25,10 @@ Error handling
 
 
 Add security
+-- change the login.html to return string values
+-- connect form with auth check
+-- new user logic
+
 Page pic
 
 populate db with fileserver
