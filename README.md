@@ -28,8 +28,10 @@ Add security
 -- change the login.html to return string values
 -- connect form with auth check
 -- new user logic
+-- add roles
 
 Page pic
+admin section
 
 populate db with fileserver
 delete
