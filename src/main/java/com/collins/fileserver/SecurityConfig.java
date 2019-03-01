@@ -22,11 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 @Override
 	    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 	        auth.inMemoryAuthentication()
-	          .withUser("user1").password(passwordEncoder().encode("user1Pass")).roles("USER")
+	          .withUser("user1").password(passwordEncoder().encode("password")).roles("USER")
 	          .and()
-	          .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
+	          .withUser("user2").password(passwordEncoder().encode("password")).roles("USER")
 	          .and()
-	          .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
+	          .withUser("admin").password(passwordEncoder().encode("password")).roles("ADMIN");
 	    }
 	 
 	 @Bean
@@ -34,31 +34,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        return new BCryptPasswordEncoder();
 	    }
 
+	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
         .csrf().disable()
             .authorizeRequests()
+            .antMatchers("/admin/**",
+            		"/pages/new",
+            		"/files/*/new",
+            		"/**/new"
+            		).hasRole("ADMIN")
                 .antMatchers(
                         "/actuator/health", 
                         "/login*",
                         "/css/**",
                         "/js/**",
                         "/favicon.ico"
-                        )
-                        .permitAll()
+                        ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 //loginProcessingUrl("/perform_login")
-                .loginProcessingUrl("/login")
+                //.loginProcessingUrl("/login")
+                .permitAll()
                 .defaultSuccessUrl("/files", true)
-                .failureUrl("/login?error=true")
+                .failureUrl("/loginError")
                 .and()
                 .logout()
-                .logoutUrl("/perform_logout")
+                .logoutUrl("/logout")
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/login");
            // .and()

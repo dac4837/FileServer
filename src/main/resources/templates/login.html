@@ -13,28 +13,18 @@
 		<div class="page-header">
 			<h1>Login</h1>
 		</div>
+		<p th:if="${loginError}" class="error">Wrong user or password</p>
 
 
-
-		<form action="#" th:action="@{/login}" th:object="${user}" method='post'>
+		<form action="#" th:action="@{/login}"  method='post'>
 		<div class="form-group">
-				<label for="inputUserName">Username</label> <input
-					id="inputUserName" class="form-control" type="text"
-					th:field="*{username}" />
-				<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Content
-					error message</p>
-				<label for="inputPassword">Password</label> <input
-					id="inputPassword" class="form-control" type="password"
-					th:field="*{password}" />
-				<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Content
-					error message</p>
-					<!-- 
-				<label for="inputDisplayName">Display Name</label> <input
-					id="inputDisplayName" class="form-control" type="text"
-					th:field="*{displayName}" />
-				<p th:if="${#fields.hasErrors('displayName')}" th:errors="*{displayName}">Content
-					error message</p>
-					-->
+				<label for="username">Username</label> <input
+					id="username" class="form-control" type="text" name="username"
+					 />
+				<label for="password">Password</label> <input
+					id="password" class="form-control" type="password" name="password"
+					/>
+
 			</div>
 
 			<button type="submit" value="Submit" class="btn btn-primary">Submit</button>
