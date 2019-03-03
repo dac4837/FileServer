@@ -44,8 +44,6 @@ public class UserService {
 			else throw e;
 		}
 		
-		System.out.println("All users: " + userRepository.findAll());
-		
 		return registeredUser;
 	}
 	

@@ -34,7 +34,6 @@ public class UserController {
 	
 	@GetMapping("/loginError")
 	public String getLoginError(Model model) {
-		System.out.println("Error logging in: " + model);
 		model.addAttribute("loginError", true);
 		return "user/login";
 	}
@@ -48,7 +47,6 @@ public class UserController {
 	@PostMapping("/register")
 	public String postRegister(@ModelAttribute("user") @Valid UserDto user, 
 		      BindingResult result) {
-		System.out.println(" registration");
 		if (result.hasErrors()) {
 			System.out.println("errors: " + result.getAllErrors());
 			return "user/newUser";
@@ -60,8 +58,6 @@ public class UserController {
 			return "user/newUser"; 
 		}
 		
-		System.out.println("Finished registration");
-		
 		return "redirect:/register/success";
 	}
 	
@@ -71,18 +67,4 @@ public class UserController {
 		return "/user/registerSuccess";
 	}
 	
-	/*
-	@PostMapping("/login")
-	public String postLogin(@ModelAttribute @Valid String username , @ModelAttribute @Valid String password, BindingResult bindingResult, Model model) {
-
-		if (bindingResult.hasErrors()) {
-			return "login";
-		}
-
-		return "redirect:/files";
-	}
-	*/
-	
-
-
 }

@@ -21,6 +21,7 @@ public class CustomAuthenticationProvider extends DaoAuthenticationProvider {
         if ((user == null)) {
             throw new BadCredentialsException("Invalid username or password");
         }
+        //BadCredentialsException
         final Authentication result = super.authenticate(auth);
         return new UsernamePasswordAuthenticationToken(user, result.getCredentials(), result.getAuthorities());
     }

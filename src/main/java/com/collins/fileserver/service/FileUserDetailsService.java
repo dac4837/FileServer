@@ -22,8 +22,8 @@ public class FileUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
     
-    
-    public UserDetails loadUserByUsername(String username)
+    @Override
+    public UserDetails loadUserByUsername(final String username)
       throws UsernameNotFoundException {
   
         User user = userRepository.findByUsername(username);
@@ -37,12 +37,12 @@ public class FileUserDetailsService implements UserDetailsService {
         boolean accountNonLocked = true;
         return  new org.springframework.security.core.userdetails.User
           (user.getUsername(), 
-          user.getPassword().toLowerCase(), enabled, accountNonExpired, 
+          user.getPassword(), enabled, accountNonExpired, 
           credentialsNonExpired, accountNonLocked, 
           getAuthorities(user.getRole()));
     }
      
-    private static List<GrantedAuthority> getAuthorities (String role) {
+    private List<GrantedAuthority> getAuthorities (String role) {
         List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(role));
 
