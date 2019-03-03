@@ -10,28 +10,65 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.collins.fileserver.domain.User;
+import com.collins.fileserver.domain.UserDto;
+import com.collins.fileserver.service.UserException;
+import com.collins.fileserver.service.UserService;
 
 @Controller
 public class UserController {
 	
+	private final UserService userService;
+	
 
 	@Autowired
-	public UserController() {
+	public UserController(UserService userService) {
 		super();
+		this.userService = userService;
 	}
 	
 	@GetMapping("/login")
 	public String getLogin(Model model) {
-		model.addAttribute("user", new User());
-		return "login";
+		//model.addAttribute("user", new User());
+		return "user/login";
 	}
 	
 	@GetMapping("/loginError")
 	public String getLoginError(Model model) {
 		System.out.println("Error logging in: " + model);
 		model.addAttribute("loginError", true);
-		return "login";
+		return "user/login";
+	}
+	
+	@GetMapping("/register")
+	public String getRegister(Model model) {
+		model.addAttribute("user", new UserDto());
+		return "user/newUser";
+	}
+	
+	@PostMapping("/register")
+	public String postRegister(@ModelAttribute("user") @Valid UserDto user, 
+		      BindingResult result) {
+		System.out.println(" registration");
+		if (result.hasErrors()) {
+			System.out.println("errors: " + result.getAllErrors());
+			return "user/newUser";
+		}
+		try {
+		userService.registerUser(user);
+		} catch(UserException e) {
+			result.rejectValue("username", "error.user", e.getMessage());
+			return "user/newUser"; 
+		}
+		
+		System.out.println("Finished registration");
+		
+		return "redirect:/register/success";
+	}
+	
+	@GetMapping("/register/success")
+	public String getRegisterSuccess(Model model) {
+		
+		return "/user/registerSuccess";
 	}
 	
 	/*
@@ -46,10 +83,6 @@ public class UserController {
 	}
 	*/
 	
-	@PostMapping("/new_user")
-	public String postNewUser(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model) {
-		
-		return "files";
-	}
+
 
 }

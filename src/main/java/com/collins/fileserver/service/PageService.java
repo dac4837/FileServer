@@ -51,8 +51,6 @@ public class PageService {
 		try {
 		return pageRepository.save(page);	
 		} catch (Exception e) {
-			System.out.println(e);
-			System.out.println(e.getCause());
 			if(e instanceof JdbcSQLException)	throw new ClientWebException ("Error saving. Already exists"); 
 			else throw new ClientWebException (e.getMessage());
 		}

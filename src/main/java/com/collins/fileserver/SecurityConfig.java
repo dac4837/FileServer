@@ -1,13 +1,18 @@
 package com.collins.fileserver;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.collins.fileserver.security.CustomAuthenticationProvider;
+import com.collins.fileserver.service.FileUserDetailsService;
 
 /**
  * Providing a custom WebSecurityConfigurerAdapter bean causes spring boot to
@@ -19,20 +24,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
+	 private FileUserDetailsService userDetailsService;
+	
 	 @Override
 	    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+		 /*
 	        auth.inMemoryAuthentication()
 	          .withUser("user1").password(passwordEncoder().encode("password")).roles("USER")
 	          .and()
 	          .withUser("user2").password(passwordEncoder().encode("password")).roles("USER")
 	          .and()
 	          .withUser("admin").password(passwordEncoder().encode("password")).roles("ADMIN");
+	          
+	          */
+		 //auth.userDetailsService(userDetailsService);
+		 auth.authenticationProvider(authProvider());
+		 
 	    }
-	 
+	 /*
 	 @Bean
 	    public PasswordEncoder passwordEncoder() {
 	        return new BCryptPasswordEncoder();
 	    }
+	 */
+
 
 	
     @Override
@@ -49,6 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/actuator/health", 
                         "/login*",
+                        "/register",
+                        "/register/success",
                         "/css/**",
                         "/js/**",
                         "/favicon.ico"
@@ -70,5 +88,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
            // .and()
             //    .oauth2Login().loginPage("/oauth2/authorization/ping");
         // @formatter:on
+    }
+    
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        final CustomAuthenticationProvider authProvider = new CustomAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(encoder());
+        return authProvider;
+    }
+    
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder(11);
     }
 }
