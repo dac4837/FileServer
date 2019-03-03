@@ -22,17 +22,18 @@ Error handling
 -already exists
 -can't upload
 -string validation (spaces)
-
-
 Add security
 -- change the login.html to return string values
 -- connect form with auth check
 -- new user logic
+
 -- add roles
-
+-- edit user
+-- delete user
 Page pic
-admin section
-
 populate db with fileserver
-delete
--out of space
+delete files
+delete pages
+https
+static files (wedding)
+out of space
