@@ -1,5 +1,7 @@
 package com.collins.fileserver.service;
 
+import java.util.Arrays;
+
 import org.h2.jdbc.JdbcSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.collins.fileserver.domain.User;
 import com.collins.fileserver.domain.UserDto;
+import com.collins.fileserver.repository.RoleRepository;
 import com.collins.fileserver.repository.UserRepository;
 
 @Service
@@ -16,6 +19,9 @@ public class UserService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private RoleRepository roleRepositry;
 	
 	@Autowired
 	public UserService(UserRepository userRepository) {
@@ -34,7 +40,7 @@ public class UserService {
 		registeredUser.setDisplayName(user.getDisplayName());
 		registeredUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		registeredUser.setUsername(user.getUsername());
-		registeredUser.setRole("REGISTERED");
+		registeredUser.setRoles(Arrays.asList(roleRepositry.findByName("ROLE_LOGIN")));
 		
 		try {
 		userRepository.save(registeredUser);
