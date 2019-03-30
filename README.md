@@ -27,7 +27,7 @@ Add security
 -- connect form with auth check
 -- new user logic
 
--- add roles
+-- add roles (Need to have the authority serive return privs And role. Rename prives.)
 -- edit user
 -- delete user
 Page pic
