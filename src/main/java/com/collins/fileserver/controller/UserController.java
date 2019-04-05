@@ -1,5 +1,7 @@
 package com.collins.fileserver.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.collins.fileserver.domain.User;
 import com.collins.fileserver.domain.UserDto;
 import com.collins.fileserver.service.UserException;
 import com.collins.fileserver.service.UserService;
@@ -65,13 +68,16 @@ public class UserController {
 	@GetMapping("/register/success")
 	public String getRegisterSuccess(Model model) {
 		
-		return "/user/registerSuccess";
+		return "user/registerSuccess";
 	}
 	
 	@GetMapping("/users")
 	public String getUsers(Model model) {
 		
-		return "/user/users";
+		List<User> users = userService.getUsers();
+		model.addAttribute("users", users);
+		
+		return "user/users";
 	}
 	
 	@GetMapping("/users/{username}")
@@ -79,7 +85,7 @@ public class UserController {
 		
 		model.addAttribute("user", userService.getUser(username));
 		
-		return "/user/users";
+		return "user/users";
 	}
 	
 }
