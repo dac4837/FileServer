@@ -51,11 +51,11 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         }
 
         // == create initial privileges
-        final Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
-        final Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
-        final Privilege deletePrivilege = createPrivilegeIfNotFound("DELETE_PRIVILEGE");
-        final Privilege manageUsersPrivilege = createPrivilegeIfNotFound("MANAGE_USERS_PRIVILEGE");
-        final Privilege loginPrivilege = createPrivilegeIfNotFound("LOGIN_PRIVILEGE");
+        final Privilege readPrivilege = createPrivilegeIfNotFound("PRIVILEGE_READ");
+        final Privilege writePrivilege = createPrivilegeIfNotFound("PRIVILEGE_WRITE");
+        final Privilege deletePrivilege = createPrivilegeIfNotFound("PRIVILEGE_DELETE");
+        final Privilege manageUsersPrivilege = createPrivilegeIfNotFound("PRIVILEGE_MANAGE_USERS");
+        final Privilege loginPrivilege = createPrivilegeIfNotFound("PRIVILEGE_LOGIN_PRIVILEGE");
         
         // == create initial roles
         final List<Privilege> adminPrivileges = new ArrayList<Privilege>(Arrays.asList(loginPrivilege, readPrivilege, writePrivilege, deletePrivilege, manageUsersPrivilege));
