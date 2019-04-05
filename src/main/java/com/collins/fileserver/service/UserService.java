@@ -1,6 +1,7 @@
 package com.collins.fileserver.service;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.h2.jdbc.JdbcSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,14 @@ public class UserService {
 	
     public void saveRegisteredUser(final User user) {
         userRepository.save(user);
+    }
+    
+    public User getUser(final String username) {
+    	return userRepository.findByUsername(username);
+    }
+    
+    public List<User> getUsers() {
+    	return userRepository.findAll();
     }
 	
 	

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<th:block th:include="fragments/general.html :: headerfiles">
+</th:block>
+<title>Admin Users</title>
+</head>
+
+<body>
+
+	<div class="container">
+		<div th:include="fragments/general.html :: navbar"></div>
+
+		<div class="page-header">
+			<h1>Pages</h1>
+		</div>
+
+
+		<ul class="list-group" th:if="${users.empty}">
+			<li class="list-group-item">No content available</li>
+		</ul>
+
+		<div class="list-group">
+
+			<p th:each="user : ${uses}"><div th:text="${user.username} "></div>
+			<a 
+				th:href="@{/users/{username}(user=${user.username})}"
+				th:text="edit"
+				class="list-group-item list-group-item-action">
+			
+				</a>
+				</p>
+			
+			
+		</div>
+
+	</div>
+</body>
+
+</html>

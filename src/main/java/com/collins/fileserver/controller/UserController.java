@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.collins.fileserver.domain.UserDto;
@@ -65,6 +66,20 @@ public class UserController {
 	public String getRegisterSuccess(Model model) {
 		
 		return "/user/registerSuccess";
+	}
+	
+	@GetMapping("/users")
+	public String getUsers(Model model) {
+		
+		return "/user/users";
+	}
+	
+	@GetMapping("/users/{username}")
+	public String getUser(@PathVariable String username, Model model) {
+		
+		model.addAttribute("user", userService.getUser(username));
+		
+		return "/user/users";
 	}
 	
 }
