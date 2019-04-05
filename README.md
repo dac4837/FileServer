@@ -28,12 +28,17 @@ Add security
 -- new user logic
 -- add roles
 
--- edit user
--- delete user
-Page pic
-populate db with fileserver
-delete files
-delete pages
+-- edit user (including view permission and error handling)
+priv view files
+database
+deploy
 https
+Page pic
+delete file
+delete page
 static files (wedding)
+change pw
+priv add pages
 out of space
+populate db with fileserver
+delete user
