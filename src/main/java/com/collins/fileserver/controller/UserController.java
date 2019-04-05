@@ -85,7 +85,7 @@ public class UserController {
 		
 		model.addAttribute("user", userService.getUser(username));
 		
-		return "user/users";
+		return "user/editUser";
 	}
 	
 }
