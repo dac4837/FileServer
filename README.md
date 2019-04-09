@@ -23,17 +23,21 @@ Error handling
 -can't upload
 -string validation (spaces)
 Add security
--- change the login.html to return string values
--- connect form with auth check
--- new user logic
--- add roles
+- change the login.html to return string values
+- connect form with auth check
+- new user logic
+- add roles
 
--- edit user (including view permission and error handling)
-priv view files
+- edit user (including view permission and error handling)
+--only managers can edit
+--anyone can update self
+--managers can edit type
 database
 deploy
 https
 Page pic
+Clean up looks
+move view to priv?
 delete file
 delete page
 static files (wedding)

@@ -1,10 +1,14 @@
 package com.collins.fileserver.controller;
 
 import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -71,6 +75,7 @@ public class UserController {
 		return "user/registerSuccess";
 	}
 	
+	@PreAuthorize("hasRole('PRIVILEGE_MANAGE_USERS')")
 	@GetMapping("/users")
 	public String getUsers(Model model) {
 		
@@ -82,10 +87,29 @@ public class UserController {
 	
 	@GetMapping("/users/{username}")
 	public String getUser(@PathVariable String username, Model model) {
-		
 		model.addAttribute("user", userService.getUser(username));
-		
+			
 		return "user/editUser";
+	}
+	
+	@GetMapping("/self")
+	public String getCurrentUser(Model model, HttpServletRequest request) {
+		
+		model.addAttribute("user", getCurrentUser(request));
+			
+		return "user/editUser";
+	}
+	
+	private User getCurrentUser(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		if(session == null) return null;
+		Object sessionIdObject = session.getAttribute("userId");
+		if(sessionIdObject == null || ! (sessionIdObject instanceof UUID) ) return null;
+		UUID userId = (UUID) sessionIdObject;
+		String s = userId.toString();
+
+		return userService.getUserById(userId);
 	}
 	
 }

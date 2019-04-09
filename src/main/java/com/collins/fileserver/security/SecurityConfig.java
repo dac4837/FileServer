@@ -1,4 +1,4 @@
-package com.collins.fileserver;
+package com.collins.fileserver.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.collins.fileserver.security.CustomAuthenticationProvider;
 import com.collins.fileserver.service.FileUserDetailsService;
+import com.collins.fileserver.user.MyAuthenticationSuccessHandler;
+import com.collins.fileserver.user.MyLogoutSuccessHandler;
 
 /**
  * Providing a custom WebSecurityConfigurerAdapter bean causes spring boot to
@@ -27,6 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	 private FileUserDetailsService userDetailsService;
+	
+	@Autowired
+	private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+	
+	@Autowired
+	private MyLogoutSuccessHandler myLogoutSuccessHandler;
 	
 	 @Override
 	    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
@@ -72,20 +79,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/js/**",
                         "/favicon.ico"
                         ).permitAll()
+                .antMatchers(
+                		"/users",
+                		"/users/**")
+                	.authenticated()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
+            .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/files")
+                .failureUrl("/loginError")
                 //loginProcessingUrl("/perform_login")
                 //.loginProcessingUrl("/login")
-                .permitAll()
-                .defaultSuccessUrl("/files", true)
-                .failureUrl("/loginError")
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login");
+                .successHandler(myAuthenticationSuccessHandler)
+            .permitAll()
+            	.and()
+            .logout()
+            	.logoutSuccessHandler(myLogoutSuccessHandler)
+            	.logoutUrl("/logout")
+            	.deleteCookies("JSESSIONID")
+            	.logoutSuccessUrl("/login");
            // .and()
             //    .oauth2Login().loginPage("/oauth2/authorization/ping");
         // @formatter:on

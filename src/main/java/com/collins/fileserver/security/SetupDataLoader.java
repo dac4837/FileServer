@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.collins.fileserver.SecurityProperties;
 import com.collins.fileserver.domain.Privilege;
 import com.collins.fileserver.domain.Role;
 import com.collins.fileserver.domain.User;

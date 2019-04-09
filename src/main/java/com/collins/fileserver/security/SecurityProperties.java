@@ -1,4 +1,4 @@
-package com.collins.fileserver;
+package com.collins.fileserver.security;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

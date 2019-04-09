@@ -2,6 +2,7 @@ package com.collins.fileserver.service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.h2.jdbc.JdbcSQLException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,10 @@ public class UserService {
     
     public List<User> getUsers() {
     	return userRepository.findAll();
+    }
+    
+    public User getUserById(UUID id) {
+    	return userRepository.findById(id);
     }
 	
 	
