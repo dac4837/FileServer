@@ -1,5 +1,3 @@
-Latest: started to add page to filecontroller. Need to implement data layer and service layer first
-
 Don't forget to:
 encode the url
 
@@ -28,10 +26,11 @@ Add security
 - new user logic
 - add roles
 
-- edit user (including view permission and error handling)
+- edit user (including view permission and error handling) LATEST: finished update other, need to do self and password logic
 --only managers can edit
 --anyone can update self
 --managers can edit type
+--remove add user
 database
 deploy
 https

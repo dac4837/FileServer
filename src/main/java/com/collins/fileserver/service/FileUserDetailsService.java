@@ -37,22 +37,21 @@ public class FileUserDetailsService implements UserDetailsService {
 		boolean credentialsNonExpired = true;
 		boolean accountNonLocked = true;
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), enabled,
-				accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(user.getRoles()));
+				accountNonExpired, credentialsNonExpired, accountNonLocked, getAuthorities(user.getRole()));
 	}
 
-	private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
+	private Collection<? extends GrantedAuthority> getAuthorities(Role role) {
 
-		return getGrantedAuthorities(getPrivileges(roles));
+		return getGrantedAuthorities(getPrivileges(role));
 	}
 
-	private List<String> getPrivileges(Collection<Role> roles) {
+	private List<String> getPrivileges(Role role) {
 
 		List<String> privileges = new ArrayList<>();
 		List<Privilege> collection = new ArrayList<>();
-		for (Role role : roles) {
-			collection.addAll(role.getPrivileges());
-			privileges.add(role.getName());
-		}
+		collection.addAll(role.getPrivileges());
+		privileges.add(role.getName());
+		
 		for (Privilege item : collection) {
 			privileges.add(item.getName());
 		}

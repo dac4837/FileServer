@@ -5,6 +5,11 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class UserDto {
 
 	@NotNull
@@ -22,30 +27,10 @@ public class UserDto {
     @Length(min=1, max=200)
     private String password;
      
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getDisplayName() {
-		return displayName;
-	}
-
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    private RoleDto role;
     
-    
+    public enum RoleDto {
+    	ROLE_ADMIN, ROLE_READER, ROLE_WRITER, ROLE_LOGIN
+    }
+     
 }

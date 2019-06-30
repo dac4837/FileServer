@@ -65,10 +65,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         final Role adminRole = createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_WRITER", writerPrivileges);
         createRoleIfNotFound("ROLE_READER", readerPrivileges);
-        createRoleIfNotFound("ROLE_LOGIN", loginPrivileges);
+        final Role loginRole = createRoleIfNotFound("ROLE_LOGIN", loginPrivileges);
  
         // == create initial user
-        createUserIfNotFound(securityProperties.getDefaultUser(), securityProperties.getDefaultUser(), securityProperties.getDefaultPassword(), new ArrayList<Role>(Arrays.asList(adminRole)));
+        createUserIfNotFound(securityProperties.getDefaultUser(), securityProperties.getDefaultUser(), securityProperties.getDefaultPassword(), adminRole);
+        //create dummy user
+        //TODO: delete this
+        createUserIfNotFound("user", "user", "user", loginRole);
 
         alreadySetup = true;
     }
@@ -95,7 +98,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     }
 
     @Transactional
-    private final User createUserIfNotFound(final String username, final String displayName, final String password, final Collection<Role> roles) {
+    private final User createUserIfNotFound(final String username, final String displayName, final String password, final Role role) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
             user = new User();
@@ -104,7 +107,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             user.setPassword(passwordEncoder.encode(password));
       
         }
-        user.setRoles(roles);
+        user.setRole(role);
         user = userRepository.save(user);
         return user;
     }

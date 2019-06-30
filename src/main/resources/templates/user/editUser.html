@@ -1,39 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 <th:block th:include="fragments/general.html :: headerfiles">
-	<title>User</title>
+	<title th:text="${currentUser.username}">User</title>
 </head>
-<!-- TODO: pull in user -->
+<!-- TODO: Populate with username. Map password field because it's required -->
 <body>
 
 	<div class="container">
 		<div th:include="fragments/general.html :: navbar"></div>
 		<div class="page-header">
-			<h1>Edit User</h1>
+			<h1 th:text="${currentUser.username}">Edit User</h1>
 		</div>
 
 
 
-		<form th:action="@{/users}" th:object="${user}" method="POST" enctype="utf8">
-    <div>
-        <label>Username</label>
-        <input th:field="*{username}"/>
-        <p th:each="error: ${#fields.errors('username')}"
-          th:text="${error}">Validation error</p>
-    </div>
-    <div>
-        <label>Name</label>
-        <input th:field="*{displayName}"/>
+		<form th:action="@{${action}}" th:object="${user}" method="POST" enctype="utf8">
+
+    <div class="form-group">
+        <label for="displayName">Name</label>
+        <input class="form-control"  th:value="${currentUser.displayName}" id="displayName" name="displayName" />
         <p th:each="error : ${#fields.errors('displayName')}"
           th:text="${error}">Validation error</p>
     </div>
-    <div>
-        <label>password</label>
-        <input type="password" th:field="*{password}"/>
+    <div class="form-group">
+        <label for="password">Change password</label>
+        <input class="form-control" type="password" th:field="*{password}" />
         <p th:each="error : ${#fields.errors('password')}"
           th:text="${error}">Validation error</p>
+    </div>
+    <div sec:authorize="hasAuthority('ROLE_ADMIN')" class="form-group">
+    <label for="role">Role</label>
+    	<select class="form-control" id="roleString" name="roleString" >
+    		<option th:selected="${currentUser.role=='ROLE_LOGIN'}" th:value="ROLE_LOGIN">Pending Access</option>
+    		<option th:selected="${currentUser.role=='ROLE_READER'}" th:value="ROLE_READER">User</option>
+    		<option th:selected="${currentUser.role=='ROLE_WRITER'}" th:value="ROLE_WRITER">Contributor</option>
+    		<option th:selected="${currentUser.role=='ROLE_ADMIN'}" th:value="ROLE_ADMIN">Admin</option>
+    	</select>
+    	
+    	 
     </div>
     <button type="submit">submit</button>
 </form>

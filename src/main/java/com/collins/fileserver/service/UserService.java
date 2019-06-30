@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.collins.fileserver.domain.Role;
 import com.collins.fileserver.domain.User;
 import com.collins.fileserver.domain.UserDto;
 import com.collins.fileserver.repository.RoleRepository;
@@ -17,20 +18,14 @@ import com.collins.fileserver.repository.UserRepository;
 @Service
 public class UserService {
 	
-	private final UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private RoleRepository roleRepositry;
-	
-	@Autowired
-	public UserService(UserRepository userRepository) {
-		super();
-
-		this.userRepository = userRepository;
-	}
 
 	public User registerUser(UserDto user) {
 		
@@ -42,7 +37,7 @@ public class UserService {
 		registeredUser.setDisplayName(user.getDisplayName());
 		registeredUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		registeredUser.setUsername(user.getUsername());
-		registeredUser.setRoles(Arrays.asList(roleRepositry.findByName("ROLE_LOGIN")));
+		registeredUser.setRole(roleRepositry.findByName("ROLE_LOGIN"));
 		
 		try {
 		userRepository.save(registeredUser);
@@ -81,6 +76,15 @@ public class UserService {
     public User getUserById(UUID id) {
     	return userRepository.findById(id);
     }
+
+	public void updateUser(User user) {
+		userRepository.save(user);
+		
+	}
+
+	public Role getRole(String name) {
+		return roleRepositry.findByName(name);
+	}
 	
 	
 }

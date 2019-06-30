@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.collins.fileserver.domain.Role;
+import com.collins.fileserver.domain.UpdateUserDto;
 import com.collins.fileserver.domain.User;
 import com.collins.fileserver.domain.UserDto;
 import com.collins.fileserver.service.UserException;
@@ -85,19 +87,53 @@ public class UserController {
 		return "user/users";
 	}
 	
+	@PreAuthorize("hasRole('PRIVILEGE_MANAGE_USERS')")
 	@GetMapping("/users/{username}")
 	public String getUser(@PathVariable String username, Model model) {
-		model.addAttribute("user", userService.getUser(username));
+		model.addAttribute("currentUser", userService.getUser(username));
+		model.addAttribute("user", new UpdateUserDto());
+		model.addAttribute("action", "/users/" + username);
 			
 		return "user/editUser";
 	}
 	
+	@PreAuthorize("hasRole('PRIVILEGE_MANAGE_USERS')")
+	@PostMapping("/users/{username}")
+	public String updateUser(@PathVariable String username, @ModelAttribute("user") @Valid UpdateUserDto userUpdate, HttpServletRequest request) {
+		User user = userService.getUser(username);
+		System.out.println(userUpdate);
+		
+		String password = userUpdate.getPassword();
+		String displayName = userUpdate.getDisplayName();
+		Role role = userService.getRole(userUpdate.getRole().name());
+		if (password != null && !password.isEmpty()) user.setPassword(password);
+		if (displayName != null && !displayName.isEmpty()) user.setDisplayName(displayName);
+		if (role != null) user.setRole(role);
+		
+		userService.updateUser(user);
+			
+		return "redirect:/users/";
+	}
+	
 	@GetMapping("/self")
 	public String getCurrentUser(Model model, HttpServletRequest request) {
-		
-		model.addAttribute("user", getCurrentUser(request));
+		model.addAttribute("user", new UserDto());
+		model.addAttribute("currentUser", getCurrentUser(request));
+		model.addAttribute("action", "/self");
 			
 		return "user/editUser";
+	}
+	
+	@PostMapping("/self")
+	public String updateCurrentUser(@ModelAttribute("user") @Valid UpdateUserDto userUpdate, HttpServletRequest request) {
+		User user = getCurrentUser(request);
+		String password = userUpdate.getPassword();
+		String displayName = userUpdate.getDisplayName();
+		if (password != null && !password.isEmpty()) user.setPassword(password);
+		if (displayName != null && !displayName.isEmpty()) user.setDisplayName(displayName);
+		userService.updateUser(user);
+			
+		return "redirect:/self";
 	}
 	
 	private User getCurrentUser(HttpServletRequest request) {
@@ -107,7 +143,6 @@ public class UserController {
 		Object sessionIdObject = session.getAttribute("userId");
 		if(sessionIdObject == null || ! (sessionIdObject instanceof UUID) ) return null;
 		UUID userId = (UUID) sessionIdObject;
-		String s = userId.toString();
 
 		return userService.getUserById(userId);
 	}

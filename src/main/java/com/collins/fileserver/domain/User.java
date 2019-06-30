@@ -1,23 +1,25 @@
 package com.collins.fileserver.domain;
 
-import java.util.Collection;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Setter
+@Getter
 public class User {
 
 	
@@ -38,55 +40,15 @@ public class User {
 	@Column(length = 60)
 	@JsonIgnore
 	private String password;
-	
 
-	public UUID getId() {
-		return id;
-	}
+	@ManyToOne
+    @JoinColumn(name="role_id", nullable=false)
+	private Role role;
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private Collection<Role> roles;
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getDisplayName() {
-		return displayName;
-	}
-
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Collection<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(final Collection<Role> roles) {
-		this.roles = roles;
-	}
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", displayName=" + displayName + ", roles=" + roles + "]";
+		return "User [username=" + username + ", displayName=" + displayName + ", role=" + role + "]";
 	}
 
 	@Override
