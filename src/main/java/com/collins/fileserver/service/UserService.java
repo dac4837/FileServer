@@ -1,6 +1,5 @@
 package com.collins.fileserver.service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,12 +49,6 @@ public class UserService {
 		return registeredUser;
 	}
 	
-
-	public void changeUserPassword(final User user, final String password) {
-        user.setPassword(passwordEncoder.encode(password));
-        userRepository.save(user);
-    }
-	
     public void deleteUser(final User user) {
         userRepository.delete(user);
     }
@@ -77,9 +70,13 @@ public class UserService {
     	return userRepository.findById(id);
     }
 
-	public void updateUser(User user) {
+	public void updateUserWithPassword(User user, final String password) {
+		user.setPassword(passwordEncoder.encode(password));
 		userRepository.save(user);
-		
+	}
+	
+	public void updateUserWithoutPassword(User user) {
+		userRepository.save(user);
 	}
 
 	public Role getRole(String name) {

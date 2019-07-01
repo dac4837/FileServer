@@ -101,16 +101,15 @@ public class UserController {
 	@PostMapping("/users/{username}")
 	public String updateUser(@PathVariable String username, @ModelAttribute("user") @Valid UpdateUserDto userUpdate, HttpServletRequest request) {
 		User user = userService.getUser(username);
-		System.out.println(userUpdate);
 		
 		String password = userUpdate.getPassword();
 		String displayName = userUpdate.getDisplayName();
 		Role role = userService.getRole(userUpdate.getRole().name());
-		if (password != null && !password.isEmpty()) user.setPassword(password);
 		if (displayName != null && !displayName.isEmpty()) user.setDisplayName(displayName);
 		if (role != null) user.setRole(role);
 		
-		userService.updateUser(user);
+		if (password != null && !password.isEmpty()) userService.updateUserWithPassword(user, password);
+		else userService.updateUserWithoutPassword(user);
 			
 		return "redirect:/users/";
 	}
@@ -129,11 +128,12 @@ public class UserController {
 		User user = getCurrentUser(request);
 		String password = userUpdate.getPassword();
 		String displayName = userUpdate.getDisplayName();
-		if (password != null && !password.isEmpty()) user.setPassword(password);
 		if (displayName != null && !displayName.isEmpty()) user.setDisplayName(displayName);
-		userService.updateUser(user);
+		
+		if (password != null && !password.isEmpty()) userService.updateUserWithPassword(user, password);
+		else userService.updateUserWithoutPassword(user);
 			
-		return "redirect:/self";
+		return "redirect:/files/";
 	}
 	
 	private User getCurrentUser(HttpServletRequest request) {

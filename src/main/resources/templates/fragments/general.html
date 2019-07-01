@@ -40,6 +40,9 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
                 <a class="nav-link" href="#" th:href="@{/users}">Users</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item" >
+                <a class="nav-link" href="#" th:href="@{/self}">Account</a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item" >
                 <a class="nav-link" href="#" th:href="@{/logout}">Log out</a>
             </li>
             <li sec:authorize="isAnonymous()" class="nav-item" >

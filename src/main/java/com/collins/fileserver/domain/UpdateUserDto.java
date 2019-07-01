@@ -9,11 +9,9 @@ import com.collins.fileserver.domain.UserDto.RoleDto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class UpdateUserDto {
 
     @NotNull
@@ -27,8 +25,6 @@ public class UpdateUserDto {
     
     private RoleDto role;
    
-    @NotNull
-    @NotEmpty
     private String roleString;
     
     public void setRoleString(String roleString) {

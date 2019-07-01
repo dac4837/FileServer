@@ -25,19 +25,23 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
         <p th:each="error : ${#fields.errors('displayName')}"
           th:text="${error}">Validation error</p>
     </div>
+    
     <div class="form-group">
-        <label for="password">Change password</label>
-        <input class="form-control" type="password" th:field="*{password}" />
+    	<p>Change Password: <input type="checkbox" id="changePassword" onclick="togglePassword()"></p>
+    	<div id="passwordBlock" style="display:none">
+        <label for="password">New password</label>
+        <input id="password" class="form-control" type="password" th:field="*{password}" />
         <p th:each="error : ${#fields.errors('password')}"
           th:text="${error}">Validation error</p>
+          </div>
     </div>
     <div sec:authorize="hasAuthority('ROLE_ADMIN')" class="form-group">
     <label for="role">Role</label>
     	<select class="form-control" id="roleString" name="roleString" >
-    		<option th:selected="${currentUser.role=='ROLE_LOGIN'}" th:value="ROLE_LOGIN">Pending Access</option>
-    		<option th:selected="${currentUser.role=='ROLE_READER'}" th:value="ROLE_READER">User</option>
-    		<option th:selected="${currentUser.role=='ROLE_WRITER'}" th:value="ROLE_WRITER">Contributor</option>
-    		<option th:selected="${currentUser.role=='ROLE_ADMIN'}" th:value="ROLE_ADMIN">Admin</option>
+    		<option th:selected="${currentUser.roleName=='ROLE_LOGIN'}" th:value="ROLE_LOGIN">Pending Access</option>
+    		<option th:selected="${currentUser.roleName=='ROLE_READER'}" th:value="ROLE_READER">User</option>
+    		<option th:selected="${currentUser.roleName=='ROLE_WRITER'}" th:value="ROLE_WRITER">Contributor</option>
+    		<option th:selected="${currentUser.roleName=='ROLE_ADMIN'}" th:value="ROLE_ADMIN">Admin</option>
     	</select>
     	
     	 
@@ -47,6 +51,18 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 
 	</div>
+	
+	<script>
+function togglePassword() {
+  var checkBox = document.getElementById("changePassword");
+  var text = document.getElementById("passwordBlock");
+  if (checkBox.checked == true){
+    text.style.display = "block";
+  } else {
+     text.style.display = "none";
+  }
+}
+</script>
 </body>
 
 </html>

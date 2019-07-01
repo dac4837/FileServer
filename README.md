@@ -25,12 +25,12 @@ Add security
 - connect form with auth check
 - new user logic
 - add roles
-
-- edit user (including view permission and error handling) LATEST: finished update other, need to do self and password logic
+- edit user
 --only managers can edit
 --anyone can update self
 --managers can edit type
 --remove add user
+
 database
 deploy
 https
