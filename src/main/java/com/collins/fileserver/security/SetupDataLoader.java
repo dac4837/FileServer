@@ -65,13 +65,10 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         final Role adminRole = createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_WRITER", writerPrivileges);
         createRoleIfNotFound("ROLE_READER", readerPrivileges);
-        final Role loginRole = createRoleIfNotFound("ROLE_LOGIN", loginPrivileges);
+        createRoleIfNotFound("ROLE_LOGIN", loginPrivileges);
  
-        // == create initial user
+        //create initial user
         createUserIfNotFound(securityProperties.getDefaultUser(), securityProperties.getDefaultUser(), securityProperties.getDefaultPassword(), adminRole);
-        //create dummy user
-        //TODO: delete this
-        createUserIfNotFound("user", "user", "user", loginRole);
 
         alreadySetup = true;
     }

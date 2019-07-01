@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,12 +34,14 @@ public class ViewController {
 		this.pageService = pageService;
 	}
 
+	@PreAuthorize("hasAuthority('PRIVILEGE_READ')")
 	@GetMapping("/files")
 	public String getAllPages(Model model) {
 		model.addAttribute("pages", pageService.getAllPages());
 		return "pages";
 	}
 
+	@PreAuthorize("hasAuthority('PRIVILEGE_READ')")
 	@GetMapping("/files/{pageName}")
 	public String getPage(@PathVariable String pageName, Model model) {
 		Page page = pageService.getPage(pageName);
@@ -49,6 +52,7 @@ public class ViewController {
 		
 	}
 
+	@PreAuthorize("hasAuthority('PRIVILEGE_WRITE')")
 	@PostMapping("/pages/new")
 	public String postNewPage(@ModelAttribute @Valid Page page, BindingResult bindingResult, Model model) {
 
@@ -59,12 +63,14 @@ public class ViewController {
 		return "redirect:/files/"+page.getDirectory();
 	}
 
+	@PreAuthorize("hasAuthority('PRIVILEGE_WRITE')")
 	@GetMapping("/pages/new")
 	public String getNewPage(Model model) {
 		model.addAttribute("page", new Page());
 		return "newPage";
 	}
 
+	@PreAuthorize("hasAuthority('PRIVILEGE_WRITE')")
 	@PostMapping("/files/{pageName}/new")
 	public String postFileUpload(@PathVariable String pageName, @RequestParam("file") MultipartFile file,
 			RedirectAttributes redirectAttributes, Model model) {
@@ -81,7 +87,8 @@ public class ViewController {
 		return "redirect:/files/" + pageName;
 
 	}
-
+	
+	@PreAuthorize("hasAuthority('PRIVILEGE_WRITE')")
 	@GetMapping("/files/{pageName}/new")
 	public String getFileUpload(@PathVariable String pageName, Model model) {
 		Page page = pageService.getPage(pageName);
@@ -91,6 +98,7 @@ public class ViewController {
 
 	}
 	
+	@PreAuthorize("hasAuthority('PRIVILEGE_READ')")
 	@GetMapping("/files/download/{pageName}/{fileName:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> serveFile(@PathVariable String pageName, @PathVariable String fileName) {

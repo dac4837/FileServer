@@ -31,7 +31,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 
 
-		<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success"
+		<a sec:authorize="hasAuthority('PRIVILEGE_WRITE')" class="btn btn-success"
 			th:href="@{/files/{directory}/new(directory=${page.directory})}">Upload
 			File</a>
 			<br><br>

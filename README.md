@@ -30,6 +30,8 @@ Add security
 --anyone can update self
 --managers can edit type
 --remove add user
+--add rbac to controller
+--add 403 page
 
 database
 deploy

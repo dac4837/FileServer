@@ -48,6 +48,12 @@ public class UserController {
 		return "user/login";
 	}
 	
+	@GetMapping("/accessDenied")
+	public String accessDenied() {
+		return "error/403";
+		
+	}
+	
 	@GetMapping("/register")
 	public String getRegister(Model model) {
 		model.addAttribute("user", new UserDto());
@@ -77,7 +83,7 @@ public class UserController {
 		return "user/registerSuccess";
 	}
 	
-	@PreAuthorize("hasRole('PRIVILEGE_MANAGE_USERS')")
+	@PreAuthorize("hasAuthority('PRIVILEGE_MANAGE_USERS')")
 	@GetMapping("/users")
 	public String getUsers(Model model) {
 		
@@ -87,7 +93,7 @@ public class UserController {
 		return "user/users";
 	}
 	
-	@PreAuthorize("hasRole('PRIVILEGE_MANAGE_USERS')")
+	@PreAuthorize("hasAuthority('PRIVILEGE_MANAGE_USERS')")
 	@GetMapping("/users/{username}")
 	public String getUser(@PathVariable String username, Model model) {
 		model.addAttribute("currentUser", userService.getUser(username));
@@ -97,7 +103,7 @@ public class UserController {
 		return "user/editUser";
 	}
 	
-	@PreAuthorize("hasRole('PRIVILEGE_MANAGE_USERS')")
+	@PreAuthorize("hasAuthority('PRIVILEGE_MANAGE_USERS')")
 	@PostMapping("/users/{username}")
 	public String updateUser(@PathVariable String username, @ModelAttribute("user") @Valid UpdateUserDto userUpdate, HttpServletRequest request) {
 		User user = userService.getUser(username);

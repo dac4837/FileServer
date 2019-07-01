@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -24,6 +25,7 @@ import com.collins.fileserver.user.MyLogoutSuccessHandler;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -50,14 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 auth.authenticationProvider(authProvider());
 		 
 	    }
-	 /*
-	 @Bean
-	    public PasswordEncoder passwordEncoder() {
-	        return new BCryptPasswordEncoder();
-	    }
-	 */
-
-
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -75,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/login*",
                         "/register",
                         "/register/success",
+                        "accessDenied",
                         "/css/**",
                         "/js/**",
                         "/favicon.ico"
@@ -98,7 +93,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             	.logoutSuccessHandler(myLogoutSuccessHandler)
             	.logoutUrl("/logout")
             	.deleteCookies("JSESSIONID")
-            	.logoutSuccessUrl("/login");
+            	.logoutSuccessUrl("/login")
+            	.and()
+            .exceptionHandling()
+            	.accessDeniedPage("/accessDenied");
            // .and()
             //    .oauth2Login().loginPage("/oauth2/authorization/ping");
         // @formatter:on

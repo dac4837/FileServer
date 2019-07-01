@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Error</title>
+<th:block th:include="fragments/general.html :: headerfiles">
+</head>
+<body>
+	<div class="container">
+		<div th:include="fragments/general.html :: navbar"></div>
+		<div class="page-header">
+			<h1 th:if="${title}" th:text="${title}">Error title</h1>
+			<h1 th:if="${title == null}">Access denied</h1>
+		</div>
+		<p id="created" th:text="${#dates.format(timestamp)}"></p>
+
+		<p class="alert alert-info">Your access is still pending or you do not have access to this page.</p>
+	
+	</div>
+</body>
+</html>
